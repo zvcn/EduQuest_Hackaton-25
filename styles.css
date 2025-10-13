@@ -1,14 +1,73 @@
+body {
+    background-image: linear-gradient(#202020, #0e1722);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.btn-signup {
+    background-color: #163720;
+    border: 2px solid #194b27;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.btn-signup:hover {
+    background-color: #194b27;
+    transform: scale(1.05);
+}
+
+.feature-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 80px;
+    gap: 40px;
+}
+
+.feature-card {
+    background-color: #213328;
+    border-radius: 20px;
+    padding: 30px;
+    width: 85%;
+    max-width: 400px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+    min-height: 230px;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+}
+
 .bg-bluez {
     background-color: #2a2c2a;
-    background-image: linear-gradient( #202020, #0e1722);
+    background-image: linear-gradient(#202020, #0e1722);
 }
 
 .bg-grenz {
-    background-color: #194b27;
+    background-color: #1f3d24;
+}
+
+.bg-grenj {
+    background-color: #1c2a20;
 }
 
 .bg-putih {
     background-color: #e9e9e9;
+}
+
+.bor-grenj {
+    border-bottom: 10px solid #1c2a20
+}
+
+.nav2 {
+    height: 10px;
+
 }
 
 @font-face {
@@ -19,17 +78,18 @@
 @font-face {
     font-family: 'PoppinsMedium';
     src: url(/EduQuest/font/Poppins-Medium.ttf);
+    font-weight: 400;
 }
 
-.pb {
+/* .pb {
     font-family: 'PoppinsBold', sans-serif;
-    color:#f3f2f2;
+    color: #f3f2f2;
 }
 
 .pm {
     font-family: 'PoppinsMedium', sans-serif;
     color: #f3f2f2;
-}
+} */
 
 .tp {
     color: white;
@@ -40,19 +100,18 @@
     align-items: flex-start !important;
 }
 
-/* hapus margin kiri berlebih biar enggak ke kanan */
+
 .navbar-nav .nav-item {
     margin-left: 0 !important;
 }
 
-/* tombol dropdown di mode mobile biar rata kiri juga */
+
 .navbar .btn {
     text-align: left;
-    /* width: 100%; */
     justify-content: flex-start;
 }
 
-/* hilangin padding tambahan dari container nav collapse */
+
 .navbar-collapse {
     padding-left: 0rem;
 }
@@ -66,4 +125,60 @@
 .navbrar {
     height: 10px;
     background-color: #102015;
+}
+
+.footer {
+    text-align: center;
+    justify-content: center;
+    padding: 30px 0;
+    background-color: #1c2531;
+    margin-top: 100px;
+    color: white;
+}
+
+.sidebar {
+    position: fixed;
+    top: 95px;
+    left: 0;
+    overflow-y: auto;
+    height: calc(100vh - 70px);
+    scrollbar-width: thin;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: #777;
+}
+
+.sidebar a.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.sidebar-mobile a.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+
+
+@media (min-width: 992px) {
+    .feature-section {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .feature-card {
+        text-align: left;
+    }
 }
