@@ -209,42 +209,7 @@
             Sign up with Google
         </button>
     </div>
-    <!-- <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCOQtgg7v5AHHPzJCIZ1vz8i8Uc7bYMNIs",
-            authDomain: "eduquestauth.firebaseapp.com",
-            projectId: "eduquestauth",
-            storageBucket: "eduquestauth.firebasestorage.app",
-            messagingSenderId: "464850327913",
-            appId: "1:464850327913:web:3e92614d5901bfb86485f8"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-
-        document.getElementById("googleLogin").addEventListener("click", () => {
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    const user = result.user;
-                    localStorage.setItem("loggedInUser", JSON.stringify({
-                        name: user.displayName,
-                        email: user.email,
-                        photo: user.photoURL,
-                        method: "google"
-                    }));
-                    alert(`Welcome ${user.displayName}!`);
-                    window.location.href = "index.html";
-                })
-                .catch((error) => {
-                    console.error(error);
-                    alert("Login gagal: " + error.message);
-                });
-        });
-    </script> -->
 </body>
 
 </html>
