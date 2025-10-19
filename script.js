@@ -17,7 +17,14 @@ if (signForm) {
             return;
         }
 
-        const newUser = { name, email, password };
+        const newUser = {
+            id: Date.now(), 
+            name,
+            email,
+            password,
+            expEksponen: 0,   
+            completed: []     
+        };
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
         localStorage.setItem('loggedInUser', JSON.stringify(newUser));
@@ -27,7 +34,6 @@ if (signForm) {
     });
 }
 
-// === LOGIN ===
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
@@ -49,7 +55,7 @@ if (loginForm) {
     });
 }
 
-// === INDEX ===
+
 document.addEventListener('DOMContentLoaded', () => {
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
@@ -57,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const signupBtn = document.querySelector('.btn-signup');
 
     if (loggedInUser && profileDropdown) {
-        // === SUDAH LOGIN ===
+
         const profileToggle = profileDropdown.querySelector('.dropdown-toggle');
         profileToggle.innerHTML = `
       <img src="assets/Prof1le.jpg" alt="Profile" width="35" height="35" class="rounded-circle me-2">
@@ -66,14 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const dropdownMenu = profileDropdown.querySelector('.dropdown-menu');
         dropdownMenu.innerHTML = `
-      <li><a class="dropdown-item" href="#">My Profile</a></li>
+      <li><a class="dropdown-item" href="profile.html">My Profile</a></li>
       <li><a class="dropdown-item" href="#">Account</a></li>
       <li><a class="dropdown-item text-danger" href="#" id="logoutBtn">Logout</a></li>
     `;
 
         if (signupBtn) signupBtn.style.display = 'none';
 
-        // Logout handler
+ 
         const logoutBtn = document.getElementById('logoutBtn');
         logoutBtn.addEventListener('click', () => {
             localStorage.removeItem('loggedInUser');
@@ -82,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     } else if (profileDropdown) {
-        // === BELUM LOGIN ===
+
         const profileToggle = profileDropdown.querySelector('.dropdown-toggle');
         profileToggle.innerHTML = `
       <img src="assets/Prof1le.jpg" alt="Profile" width="35" height="35" class="rounded-circle me-2">
@@ -102,16 +108,16 @@ function toggleSidebar() {
     document.getElementById("mobileSidebar").classList.toggle("active");
 }
 
-// === ambil elemen penting ===
+
 const quizForm = document.getElementById('quizForm');
 const quizResult = document.getElementById('quiz-result');
 const xpPerCorrect = 25;
 
-// pilih elemen sidebar (desktop + mobile)
+
 const materi2Link = document.getElementById('materi2Link') || document.querySelector('a[href="#materi2"]');
 const materi2LinkMobile = document.getElementById('materi2LinkMobile') || null;
 
-// === helper: XP getter & setter ===
+
 function getXpEksponen() {
     return parseInt(localStorage.getItem('xpEksponen') || '0', 10);
 }
@@ -119,7 +125,7 @@ function setXpEksponen(xp) {
     localStorage.setItem('xpEksponen', String(xp));
 }
 
-// === disable quiz kalau udah kelar ===
+
 function disableQuizUI() {
     if (!quizForm) return;
     const inputs = quizForm.querySelectorAll('input[type="radio"]');
@@ -130,52 +136,52 @@ function disableQuizUI() {
     if (!quizForm.querySelector('.done-note')) {
         const doneNote = document.createElement('div');
         doneNote.className = 'done-note mt-3 text-success';
-        // doneNote.innerHTML = `<strong>✅ Kamu udah lulus materi ini. Materi berikutnya telah terbuka!</strong>`;
+      
         quizForm.parentNode.insertBefore(doneNote, quizForm.nextSibling);
     }
 }
 
-// === fungsi buat handle icon 🔒 ===
+
 function updateLockIcon(link, unlocked) {
     if (!link) return;
     const existingIcon = link.querySelector('i.fa-lock');
 
     if (unlocked) {
-        // hapus icon kalau ada
+      
         if (existingIcon) existingIcon.remove();
     } else {
-        // tambahkan icon kalau belum ada
+       
         if (!existingIcon) {
             link.insertAdjacentHTML("beforeend", ' <i class="fa-solid fa-lock"></i>');
         }
     }
 }
 
-// === fungsi unlock ===
+
 function unlockNextMateri() {
-    const xp = getXpEksponen();
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+    const xp = user ? (user.expEksponen || 0) : 0;
     const unlocked = xp >= 75;
 
-    // desktop
+
     if (materi2Link) {
         materi2Link.classList.toggle('disabled', !unlocked);
         updateLockIcon(materi2Link, unlocked);
     }
-    // mobile
+  
     if (materi2LinkMobile) {
         materi2LinkMobile.classList.toggle('disabled', !unlocked);
         updateLockIcon(materi2LinkMobile, unlocked);
     }
 
-    // disable quiz jika sudah cukup
     if (unlocked) disableQuizUI();
 
-    // simpan status unlock biar persist
+
     localStorage.setItem('unlocked_materi2', unlocked);
 }
 document.addEventListener('DOMContentLoaded', unlockNextMateri);
 
-// === restore state sidebar saat reload ===
+
 window.addEventListener("load", () => {
     const materi2Unlocked = localStorage.getItem('unlocked_materi2') === 'true';
     if (materi2Link) {
@@ -188,7 +194,7 @@ window.addEventListener("load", () => {
     }
 });
 
-// === QUIZ FLOW ===
+
 if (quizForm) {
     const questionsData = [
         { q: "Berapakah hasil dari 2<sup>8</sup> : 2<sup>4</sup> ?", a: ["8", "16", "32"], correct: "16" },
@@ -202,12 +208,12 @@ if (quizForm) {
 
     const alreadyXp = getXpEksponen();
 
-    // kalau udah pernah lulus, hide quiz
+    
     if (alreadyXp >= 75) {
         quizForm.innerHTML = `<p style="color:lightgreen">✅ Kamu sudah mendapatkan ${alreadyXp} XP pada materi Eksponen. Materi Logaritma telah terbuka.</p>`;
         disableQuizUI();
     } else {
-        // generate pertanyaan
+       
         shuffledQuestions.forEach((item, index) => {
             const questionDiv = document.createElement('div');
             questionDiv.className = 'question';
@@ -238,14 +244,14 @@ if (quizForm) {
             quizForm.appendChild(questionDiv);
         });
 
-        // tombol submit
+    
         const submitBtn = document.createElement('button');
         submitBtn.type = 'submit';
         submitBtn.className = 'btn btn-success mt-3';
         submitBtn.innerText = 'Submit Jawaban';
         quizForm.appendChild(submitBtn);
 
-        // flow
+  
         let currentQuestion = 0;
         let userAnswers = [];
         let totalXP = 0;
@@ -272,9 +278,26 @@ if (quizForm) {
                 });
                 totalXP = correctCount * xpPerCorrect;
 
-                const prevXp = getXpEksponen();
-                const newXp = Math.max(prevXp, totalXP);
-                setXpEksponen(newXp);
+            
+                const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+                if (loggedInUser) {
+                    
+                    loggedInUser.expEksponen = Math.max(loggedInUser.expEksponen || 0, totalXP);
+
+                    if (!loggedInUser.completed.includes('quiz_eksponen')) {
+                        loggedInUser.completed.push('quiz_eksponen');
+                    }
+
+                    
+                    const users = JSON.parse(localStorage.getItem('users')) || [];
+                    const idx = users.findIndex(u => u.email === loggedInUser.email);
+                    if (idx !== -1) users[idx] = loggedInUser;
+                    localStorage.setItem('users', JSON.stringify(users));
+                    localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+                } else {
+                    console.warn("Gagal menambah EXP: tidak ada user login.");
+                }
+
 
                 if (correctCount >= 3) {
                     quizResult.innerHTML = `
@@ -302,3 +325,33 @@ if (quizForm) {
         });
     }
 }
+
+function getXpEksponen() {
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+    return user ? (user.expEksponen || 0) : 0;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!user) {
+        alert('Kamu belum login!');
+        window.location.href = 'Signup.html';
+        return;
+    }
+
+    document.getElementById('profileName').textContent = user.name;
+    document.getElementById('profileEmail').textContent = user.email;
+    document.getElementById('name').value = user.name;
+    document.getElementById('email').value = user.email;
+
+    document.getElementById('editProfileForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        user.name = document.getElementById('name').value.trim();
+        user.email = document.getElementById('email').value.trim();
+        user.password = document.getElementById('password').value.trim() || user.password;
+        localStorage.setItem('loggedInUser', JSON.stringify(user));
+        alert('Profil berhasil diperbarui!');
+        window.location.reload();
+    });
+});
+

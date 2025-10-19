@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackathon | Leaderboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="icon" href="assets/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="script.js" defer></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0d1117;
+            color: #fff;
+            font-family: "Poppins", sans-serif;
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        /* ===== Leaderboard Section ===== */
+        .leaderboard {
+            background-color: #0d1117;
+            border-radius: 20px;
+            padding: 30px 25px;
+            width: 90%;
+            max-width: 520px;
+            margin: 0 auto;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.07);
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .leaderboard:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+        }
+
+        .leaderboard-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .leaderboard-header h2 {
+            font-size: 30px;
+            color: #ffb347;
+            margin-bottom: 8px;
+        }
+
+        .leaderboard-header p {
+            font-size: 14px;
+            color: #c9d1d9;
+            margin-bottom: 4px;
+        }
+
+        .leaderboard-header small {
+            color: #8b949e;
+        }
+
+        .leaderboard-medals {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 15px;
+        }
+
+        .medal {
+            width: 60px;
+            height: 60px;
+            background-color: #1e2329;
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .medal:hover {
+            transform: scale(1.05);
+            background-color: #21262d;
+        }
+
+        .medal.gold {
+            border-color: #ffb347;
+            box-shadow: 0 0 10px rgba(255, 179, 71, 0.3);
+        }
+
+        .medal.locked {
+            opacity: 0.4;
+            border-color: #30363d;
+        }
+
+        .leaderboard-table {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #161b22;
+            border-radius: 12px;
+            padding: 12px 16px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .leaderboard-item:hover {
+            background-color: #21262d;
+            transform: scale(1.01);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+        }
+
+        .rank {
+            font-weight: bold;
+            color: #ffb347;
+            margin-right: 10px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .username {
+            font-weight: 600;
+        }
+
+        .xp {
+            font-weight: bold;
+            color: #00e6b8;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ===== Navbar ===== -->
+
+    <body class="h-100vh">
+        <nav class="navbar navbar-expand-lg p-3 navbar-dark bg-grenz bor-grenj fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand fs-3 fw-semibold" href="index.html">EduQuest</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+
+                    <!-- KIRI: Belajar, Latihan, Leaderboard -->
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item dropdown me-2">
+                            <button class="btn btn-dark bg-grenz border-0 dropdown-toggle"
+                                data-bs-toggle="dropdown">Belajar</button>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="math.html">Matematika</a></li>
+                                <li><a class="dropdown-item" href="phy.html">Fisika</a></li>
+                                <li><a class="dropdown-item" href="bio.html">Biologi</a></li>
+                            </ul>
+                        </li>
+                         <li class="nav-item dropdown me-2">
+                        <button class="btn btn-dark bg-grenz border-0 dropdown-toggle"
+                            data-bs-toggle="dropdown">Latihan</button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="mathL.html">Matematika</a></li>
+                            <li><a class="dropdown-item" href="phyL.html">Fisika</a></li>
+                            <li><a class="dropdown-item" href="bioL.html">Biologi</a></li>
+                        </ul>
+                    </li>
+                        <li class="nav-item me-2">
+                            <a class="btn btn-dark bg-grenz  border-0" href="leaderboard.html">Leaderboard</a>
+                        </li>
+                    </ul>
+
+                    <!-- KANAN: Profile -->
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-dark bg-grenz border-0 dropdown-toggle" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <img src="assets/Prof1le.jpg" alt="Profile" width="35" height="35"
+                                    class="rounded-circle me-2">
+                                Profile
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#">My Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Account</a></li>
+                                <li><a class="dropdown-item" href="Signup.html">Sign up / Log in</a></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="nav2 bg-grenj">
+
+            </div>
+        </nav>
+
+        <!-- ===== Leaderboard Section ===== -->
+        <section class="leaderboard mt-5">
+            <div class="leaderboard-header">
+                <h2>Edu League</h2>
+                <p>Top 20 advance to the next leaderboard</p>
+                <small><i class="fa-regular fa-clock"></i> 2 days left</small>
+
+                <div class="leaderboard-medals">
+                    <div class="medal gold">🥉</div>
+                    <div class="medal silver locked">🔒</div>
+                    <div class="medal bronze locked">🔒</div>
+                </div>
+            </div>
+
+            <div class="leaderboard-table">
+                <div class="leaderboard-item">
+                    <span class="rank">1</span>
+                    <div class="user-info">
+                        <img src="./assets/Prof1le.jpg" alt="avatar">
+                        <span class="username">User 1</span>
+                    </div>
+                    <span class="xp">320 XP</span>
+                </div>
+
+                <div class="leaderboard-item">
+                    <span class="rank">2</span>
+                    <div class="user-info">
+                        <img src="./assets/Prof1le.jpg" alt="avatar">
+                        <span class="username">User 2</span>
+                    </div>
+                    <span class="xp">120 XP</span>
+                </div>
+
+                <div class="leaderboard-item">
+                    <span class="rank">3</span>
+                    <div class="user-info">
+                        <img src="./assets/Prof1le.jpg" alt="avatar">
+                        <span class="username">User 3</span>
+                    </div>
+                    <span class="xp">40 XP</span>
+                </div>
+            </div>
+        </section>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"></script>
+    </body>
+
+</html>
